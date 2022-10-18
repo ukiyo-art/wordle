@@ -60,7 +60,7 @@ body{
 }
 #result{
     position: relative;
-    top: 0.5em;
+    top: 0.8em;
     color: green;
 }
 #restart{
