@@ -59,6 +59,7 @@ var o = 1;
 async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czegoś do inputu
     var rowsnumber = 0; // zmienna do ilości komórek w tabeli
     var inputvalue = $("#textinput").val(); //przypisanie tekstu z inputu do zmiennej
+    inputvalue = inputvalue.toLowerCase();
     if(inputvalue.length != 5){
         $("#error").text('Słowo musi mieć 5 liter.');
         return;
