@@ -80,6 +80,7 @@ async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czego�
         $("#textinput").css("display", "none");
         $("#result").html("Pomyślnie zgadnięto słowo - <strong>" + words[random] + "</strong>")
         $("#restart").css("visibility", 'visible');
+        return;
     }
     $("td").each(function(){
         rowsnumber++;
