@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle Dawid Gibaszek</title>
-    <link rel = 'stylesheet' href = 'styles/styles.css'>
+    <link rel = 'stylesheet' href = 'styles/styles.css?v=0.1'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src='resources/animejs/lib/anime.min.js'></script>
     <script src='javascript/main.js'></script>
 </head>
 <body>
     <h1>Wpisuj słowa. Litery, które zgadzają z hasłem podświetlą się na zielono,<br> a litery, które są w wylosowanym słowie na żółto.</h1>
+    <p id = 'time'><span id = 'minutes'>00</span>:<span id = 'seconds'>00</span></p>
     <table id = 'wordletable'>
         <tr>
             <td></td>
@@ -56,7 +57,8 @@
         </tr>
         
     </table>
-    <input id = 'textinput' type = 'text' placeholder="Wpisz słowo..." onchange="inputdata()">
+    <input id = 'textinput' type = 'text' placeholder="Wpisz słowo..." onchange="inputdata()"/>
+    <p id = 'wordcounttext'>Długość: <span id = 'wordcount'>0</span></p>
     <p id = 'error'></p>
     <p id = 'result'></p>
     <button id = 'restart' onClick="window.location.reload();">Restart</button>

@@ -1,10 +1,39 @@
+var minutes = 0;
+var seconds = 0;
+var timerrunning = true;
+var minutesstring;
+var secondsstring;
 $(document).ready(function(){
+    $("#textinput").on('input', function(){
+        $("#wordcount").text($(this).val().length);
+    })
     //dodanie id do każdej komórki tablicy
     var i = 1;
     $("td").each(function(){
-        $(this).attr('id', "row" + i)
+        $(this).attr('id', "row" + i);
         i++;
     });
+    function time(){
+        if(!timerrunning){
+            return;
+        }
+        if(seconds==60){
+            seconds=0;
+            minutes++;
+        }
+        minutesstring = minutes.toString();
+        secondsstring = seconds.toString();
+        if(minutesstring.length < 2){
+            minutesstring = "0" + minutesstring;
+        }
+        if(secondsstring.length < 2){
+            secondsstring = "0" + secondsstring;
+        }
+        $('#seconds').text(secondsstring);
+        $('#minutes').text(minutesstring);
+        seconds++;
+    }
+    setInterval(time, 1000);
 })
 
 var answeredwords = []; //tablica przechowywująca odpowiedzi użytkownika
@@ -19,10 +48,10 @@ const options = { //opcje do requestu api, przy pomocy którego losujemy słowo 
 fetch('https://polish-words.p.rapidapi.com/word/random/5', options)
     .then(response => response.json())
     .then(response => {
-        words.push(response.word.toString()) //dodajemy słowo do naszej tablicy ze słowami
+        words.push(response.word.toString()); //dodajemy słowo do naszej tablicy ze słowami
 })
 
-var random = Math.floor(Math.random() * (words.length - 0) + 0) //losowanie słów, jeśli chcielibyśmy użyć własnych słów, a nie ze słownika
+var random = Math.floor(Math.random() * (words.length - 0) + 0); //losowanie słów, jeśli chcielibyśmy użyć własnych słów, a nie ze słownika
 
 //zmienne do pętli
 var i = 1;
@@ -53,11 +82,11 @@ async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czego�
     var randomword = words[random].split(''); //podzielenie losowego słowa na pojedyncze litery
     var animation = anime.timeline({ //timeline stworzony za pomocą anime.js (silnika od animacji do js), dzięki któremu animowane są poszczególne pola tablicy, a nie wszystkie na raz
         easing: 'easeInOutBounce',
-        duration: 400,
+        duration: 500,
     });
     for(var x = 0; x < 5; x++){ //pętla, która dodaje tekst wpisany przez użytkownika do pól tablicy na stronie oraz zmieniająca początkowo przezroczystość na 0, żeby pola tablicy były niewidzialne
         $("#row" + i).css('opacity', '0');
-        $("#row" + i).text(inputvaluesplited[x])
+        $("#row" + i).text(inputvaluesplited[x]);
         animation.add({ //dodajemy do timelineu animacje poszczególnych pól
             targets: '#row' + i, //dodajemy pola, w których ma wystąpić animacja (czyli w sumie wszystkie po kolei)
             rotateX: 360, //obracamy pole po osi X o 360stopni co daje efekt przewracania kartki
@@ -77,8 +106,10 @@ async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czego�
         o++;
     }
     if(inputvalue == words[random]){ //wygrana i koniec gry
+        timerrunning = false;
         $("#textinput").css("display", "none");
-        $("#result").html("Pomyślnie zgadnięto słowo - <strong>" + words[random] + "</strong>")
+        $("#error").css("display", "none");
+        $("#result").html("Pomyślnie zgadnięto słowo - <strong>" + words[random] + "</strong>");
         $("#restart").css("visibility", 'visible');
         return;
     }
@@ -86,8 +117,11 @@ async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czego�
         rowsnumber++;
     });
     if(answeredwords.length == rowsnumber/5){ //przegrana i koniec gry
+        timerrunning = false;
         $("#textinput").css("display", "none");
-        $("#error").html("Skończyły się próby. Poprawne słowo to - <strong>" + words[random] + "</strong>")
+        $("#error").css("display", "none");
+        $("#result").css("color", "red");
+        $("#result").html("Skończyły się próby. Poprawne słowo to - <strong>" + words[random] + "</strong>");
         $("#restart").css("visibility", 'visible');
     }
     }
