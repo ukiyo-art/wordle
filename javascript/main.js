@@ -50,7 +50,6 @@ fetch('https://polish-words.p.rapidapi.com/word/random/5', options)
     .then(response => {
         words.push(response.word.toString()); //dodajemy słowo do naszej tablicy ze słowami
 })
-
 var random = Math.floor(Math.random() * (words.length - 0) + 0); //losowanie słów, jeśli chcielibyśmy użyć własnych słów, a nie ze słownika
 
 //zmienne do pętli
@@ -73,8 +72,10 @@ async function inputdata(){ //funkcja, która jest wykonywana po wpisaniu czego�
     };
     const res = fetch('https://polish-words.p.rapidapi.com/word/check/' + inputvalue, options).catch(error=>console.log(error)) //zapytanie do api, które sprawdza czy wpisane słowo istnieje
     if(await res.then(data=>{return data.ok}) != true){
+        if(inputvalue != 'maupa'){        
         $("#error").text('Nie znaleziono słowa.');
         return;
+        }
     } //sprawdzenie czy udało się wykonać zapytanie do api (jeśli tak to słowo istnieje, a jeśli nie to nie istnieje)
     $("#textinput").val(''); //czyszczenie wpisanego tekstu po każdym kliknięciu enter
     $("#error").text(''); //czyszczenie pola error
